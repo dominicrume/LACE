@@ -1,0 +1,12 @@
+# LCX runtime configuration — single source (Rule 3)
+database_url: "postgresql+psycopg2://postgres:postgres@localhost:5432/lcx"
+broker_url: "redis://localhost:6379/0"
+jitter_degrees: 0.0015               # ~150m public-coordinate fuzz (Rule 5)
+queue: "redis-celery"                # graduation: redis+celery
+green_job_hours_per_items: 5
+s3_bucket: "lcx-images"
+s3_endpoint_url: "http://localhost:9000"
+s3_access_key: "minioadmin"
+s3_secret_key: "minioadmin"
+oidc_issuer_url: "http://localhost:8080/realms/lcx"
+oidc_audience: "lcx-api"
