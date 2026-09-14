@@ -4,16 +4,29 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vite.dev/config/
 export default defineConfig({
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true
+      },
+      '/ws': {
+        target: 'ws://127.0.0.1:8000',
+        ws: true,
+        changeOrigin: true
+      }
+    }
+  },
   plugins: [
     react(),
     VitePWA({
       registerType: 'autoUpdate',
       devOptions: { enabled: true },
       manifest: {
-        name: 'LCX Driver App',
-        short_name: 'LCX Driver',
-        description: 'Offline-first driver app for Ladywood Circular Exchange',
-        theme_color: '#000000',
+        name: 'LACE Core Platform',
+        short_name: 'LACE',
+        description: 'Ladywood Automated Circular Exchange - v2 Core Platform',
+        theme_color: '#ffffff',
         background_color: '#000000',
         display: 'standalone',
         icons: [] // would normally have 192 and 512 icons here

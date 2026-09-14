@@ -1,0 +1,31 @@
+name: lcx_enterprise_core_v2
+version: 1.0.0
+_derived_from_brief: true
+features:
+  - id: api.items
+    description: FastAPI backend providing the core routing for intake reporting and retrieving items
+  - id: api.override
+    description: OIDC HTTPBearer with JWT validation for role-based access control and manual overrides
+  - id: api.routes
+    description: Cluster items using actual road networks via the OSRM public API and return them
+  - id: api.scorecard
+    description: Scorecard endpoint for displaying KYA metrics and dashboard analytics
+  - id: api.health
+    description: Health endpoint for infrastructure observability and load balancer liveness checks
+  - id: storage.s3
+    description: Persist sanitized images (EXIF stripped) to an S3 Storage Seam using boto3
+  - id: observability.kya
+    description: KYA Witness Layer (ItemLedger) to track immutable triage and override actions
+  - id: ai.triage
+    description: Hugging Face Vision Transformer model (ResNet/ViT) to classify images and suggest routes
+  - id: worker.celery
+    description: Celery workers backed by a Redis broker to process images asynchronously
+  - id: driver.app
+    description: Offline-First Progressive Web App (PWA) for drivers using React, Vite, and IndexedDB
+  - id: monitoring.metrics
+    description: Prometheus metrics endpoint instrumented for Grafana
+governance:
+- rule: no_secrets_in_source
+  description: No credentials, keys or tokens committed to the repo.
+allowlist:
+  external_apis: []

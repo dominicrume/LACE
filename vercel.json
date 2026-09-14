@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "buildCommand": "cd driver-app && npm install && npm run build",
+  "outputDirectory": "driver-app/dist",
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/index.py" },
+    { "source": "/ws/(.*)", "destination": "/api/index.py" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

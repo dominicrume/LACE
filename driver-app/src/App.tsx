@@ -1,160 +1,122 @@
-import { useEffect, useState } from 'react'
-import { MdRefresh, MdCloudOff, MdCloudDone, MdCheckCircle } from 'react-icons/md'
-import { saveRoute, getRoute, saveMutation, getMutations, clearMutation } from './db'
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-const API_URL = 'http://localhost:8000'
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import DesktopLayout from './layouts/DesktopLayout';
 
-function App() {
-  const [route, setRoute] = useState<any[]>([])
-  const [isOnline, setIsOnline] = useState(navigator.onLine)
-  const [loading, setLoading] = useState(false)
-  const [mutationsPending, setMutationsPending] = useState(0)
+import DriverRoute from './views/DriverRoute';
+import OperatorDashboard from './views/OperatorDashboard';
+import SafetySignoff from './views/SafetySignoff';
+import Statistics from './views/Statistics';
 
-  // Token hardcoded for demo purposes; normally handled via login/OIDC flow
-  const token = localStorage.getItem('token') || ''
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { refetchOnWindowFocus: false, staleTime: 1000 * 60 } },
+});
 
-  useEffect(() => {
-    const handleOnline = () => { setIsOnline(true); syncMutations(); }
-    const handleOffline = () => setIsOnline(false)
+// A simple login screen to mock real authentication selection
+function LoginScreen() {
+  const { login } = useAuth();
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [error, setError] = React.useState('');
 
-    window.addEventListener('online', handleOnline)
-    window.addEventListener('offline', handleOffline)
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
     
-    // Load local route on mount
-    getRoute().then(data => {
-      if (data) setRoute(data)
-    })
-    
-    // Check pending mutations
-    getMutations().then(m => setMutationsPending(m.length))
-
-    return () => {
-      window.removeEventListener('online', handleOnline)
-      window.removeEventListener('offline', handleOffline)
-    }
-  }, [])
-
-  const syncMutations = async () => {
-    const mutations = await getMutations()
-    if (mutations.length === 0) return
-    
-    for (const m of mutations) {
-      try {
-        const formData = new FormData()
-        formData.append('destination', m.destination)
-        
-        await fetch(`${API_URL}/items/${m.itemId}/override`, {
-          method: 'POST',
-          headers: { 'Authorization': `Bearer ${token}` },
-          body: formData
-        })
-        
-        if (m.id) await clearMutation(m.id)
-      } catch (e) {
-        console.error('Sync failed for item', m.itemId)
-      }
-    }
-    const left = await getMutations()
-    setMutationsPending(left.length)
-  }
-
-  const fetchRoute = async () => {
-    if (!isOnline) return
-    setLoading(true)
     try {
-      const res = await fetch(`${API_URL}/routes/today`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      })
-      if (res.ok) {
-        const data = await res.json()
-        setRoute(data)
-        await saveRoute(data)
-      } else {
-        alert("Authentication required. Please set token in localStorage.")
-      }
-    } catch (e) {
-      console.error(e)
-    } finally {
-      setLoading(false)
-    }
-  }
+      const formBody = new URLSearchParams();
+      formBody.append('username', username);
+      formBody.append('password', password);
 
-  const handleOverride = async (itemId: number, dest: string) => {
-    // Optimistic UI update
-    setRoute(prev => prev.filter(p => p.item_id !== itemId))
-    
-    if (isOnline) {
-      try {
-        const formData = new FormData()
-        formData.append('destination', dest)
-        await fetch(`${API_URL}/items/${itemId}/override`, {
-          method: 'POST',
-          headers: { 'Authorization': `Bearer ${token}` },
-          body: formData
-        })
-      } catch (e) {
-        await saveMutation(itemId, dest)
-        setMutationsPending(p => p + 1)
-      }
-    } else {
-      await saveMutation(itemId, dest)
-      setMutationsPending(p => p + 1)
-    }
-  }
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        credentials: 'include',
+        body: formBody.toString()
+      });
 
+      if (!res.ok) {
+        throw new Error('Invalid credentials');
+      }
+
+      const data = await res.json();
+      login(data.role.toUpperCase());
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+  
   return (
-    <div className="container">
-      <header className="header glass">
-        <h1>LCX Route</h1>
-        <div className={`status-badge ${isOnline ? 'status-online' : 'status-offline'}`}>
-          {isOnline ? <MdCloudDone size={16} /> : <MdCloudOff size={16} />}
-          {isOnline ? 'Online' : 'Offline'}
-        </div>
-      </header>
-
-      {mutationsPending > 0 && (
-        <div className="card glass" style={{borderColor: 'var(--accent)'}}>
-          <p style={{color: 'var(--accent)', fontSize: '0.875rem', fontWeight: 500}}>
-            {mutationsPending} action(s) waiting to sync...
-          </p>
-        </div>
-      )}
-
-      {route.map((pt, i) => (
-        <div key={pt.item_id} className="card glass">
-          <div className="card-header">
-            <span className="item-id">Stop #{i + 1}</span>
-            <span className="item-dest">Item {pt.item_id}</span>
-          </div>
-          <div className="card-body">
-            <p>Lat: {pt.lat.toFixed(4)}</p>
-            <p>Lon: {pt.lon.toFixed(4)}</p>
-          </div>
-          <div className="btn-group">
-            <button className="btn-primary" onClick={() => handleOverride(pt.item_id, 'REPAIR_HUB')}>
-              <MdCheckCircle size={18} /> Picked Up
-            </button>
-            <button className="btn-outline" onClick={() => handleOverride(pt.item_id, 'COMMUNITY_MARKETPLACE')}>
-              Direct to Community
-            </button>
-          </div>
-        </div>
-      ))}
-
-      {route.length === 0 && (
-        <div className="card glass" style={{textAlign: 'center', padding: '3rem 1rem'}}>
-          <p style={{color: 'var(--text-secondary)'}}>No stops for today.</p>
-        </div>
-      )}
-
-      <div className="sync-bar glass">
-        <button className="btn-primary" onClick={fetchRoute} disabled={loading || !isOnline}>
-          <MdRefresh size={20} className={loading ? 'spinning' : ''} />
-          {loading ? 'Syncing...' : 'Sync Day Route'}
-        </button>
+    <div className="flex items-center justify-center" style={{ minHeight: '100vh' }}>
+      <div style={{ position: 'absolute', top: '2rem', left: '2rem' }}>
+        <h1 style={{ background: 'linear-gradient(135deg, #22d3ee, #10b981)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>LACE v2</h1>
       </div>
+      
+      <form onSubmit={handleSubmit} className="card flex-col gap-6" style={{ maxWidth: '420px', width: '100%', padding: '2.5rem' }}>
+        <div>
+          <h2>Enterprise Portal</h2>
+          <p>Sign in to the Ladywood Automated Circular Exchange.</p>
+        </div>
+        
+        {error && <div className="badge danger" style={{ width: '100%', justifyContent: 'center' }}>{error}</div>}
+        
+        <div className="flex-col gap-4">
+          <input 
+            className="input-solid" 
+            placeholder="Username (e.g. admin1, tech1, gov1)" 
+            value={username} 
+            onChange={(e) => setUsername(e.target.value)} 
+          />
+          <input 
+            type="password"
+            className="input-solid" 
+            placeholder="Password (password)" 
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)} 
+          />
+          <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '1rem', marginTop: '0.5rem' }}>Secure Login</button>
+        </div>
+      </form>
     </div>
-  )
+  );
 }
 
-export default App
+function RouterFlow() {
+  const { role } = useAuth();
+
+  if (!role) {
+    return <LoginScreen />;
+  }
+
+  // Omnichannel Unified Experience
+  return (
+    <Routes>
+      <Route path="/" element={<DesktopLayout />}>
+        {/* Default redirects */}
+        <Route index element={<Navigate to={role === 'GOVERNMENT' ? "/statistics" : role === 'USER' ? "/mobile-route" : "/operator"} replace />} />
+        
+        {/* All core views are mounted. DesktopLayout controls sidebar visibility based on role */}
+        <Route path="operator" element={<OperatorDashboard />} />
+        <Route path="safety" element={<SafetySignoff />} />
+        <Route path="statistics" element={<Statistics />} />
+        <Route path="mobile-route" element={<DriverRoute />} />
+        
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Route>
+    </Routes>
+  );
+}
+
+export default function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <BrowserRouter>
+          <RouterFlow />
+        </BrowserRouter>
+      </AuthProvider>
+    </QueryClientProvider>
+  );
+}

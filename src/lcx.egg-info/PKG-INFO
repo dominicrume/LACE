@@ -1,0 +1,24 @@
+Metadata-Version: 2.4
+Name: lcx
+Version: 0.1.0
+Summary: Ladywood Circular Exchange - civic resource routing (runnable core)
+Requires-Python: >=3.11
+Requires-Dist: fastapi>=0.110
+Requires-Dist: uvicorn>=0.29
+Requires-Dist: sqlmodel>=0.0.16
+Requires-Dist: pillow>=10.0
+Requires-Dist: python-multipart>=0.0.9
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: celery[redis]>=5.3.0
+Requires-Dist: psycopg2-binary>=2.9.9
+Requires-Dist: geoalchemy2>=0.14.0
+Requires-Dist: boto3>=1.34.0
+Requires-Dist: python-jose[cryptography]>=3.3.0
+Requires-Dist: transformers>=4.37.0
+Requires-Dist: torch>=2.2.0
+Requires-Dist: requests>=2.31.0
+Requires-Dist: prometheus-fastapi-instrumentator>=7.0.0
+Requires-Dist: jinja2>=3.1.3
+Provides-Extra: dev
+Requires-Dist: pytest>=8.0; extra == "dev"
+Requires-Dist: httpx>=0.27; extra == "dev"
