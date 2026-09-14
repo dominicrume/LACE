@@ -99,20 +99,20 @@ export default function DriverPortal({ onComplete }: { onComplete?: () => void }
 
       <div className="driver-map-sim">
         <div className="route-path"></div>
-        {/* Dynamic Route Clustering explicitly for Emma */}
+        {/* Dynamic Route Clustering explicitly for Nadia */}
         <div className="route-marker" style={{ top: '30%', left: '40%', opacity: 0.5, transform: 'scale(0.8)' }}>📍 Neighbor 1</div>
         <div className="route-marker" style={{ top: '70%', left: '60%', opacity: 0.5, transform: 'scale(0.8)' }}>📍 Neighbor 2</div>
-        <div className="route-marker beacon-pulse" style={{ top: '50%', left: '50%', zIndex: 10 }}>📍 Emma's House, Ladywood</div>
+        <div className="route-marker beacon-pulse" style={{ top: '50%', left: '50%', zIndex: 10 }}>📍 Nadia's House, Ladywood</div>
         
         <div style={{ position: 'absolute', top: '1rem', left: '1rem', background: 'rgba(0,0,0,0.85)', padding: '1rem', borderRadius: '12px', borderLeft: '4px solid #10b981' }}>
           <h3 style={{ color: '#10b981', margin: 0 }}>Smart Collection Route</h3>
-          <p style={{ margin: 0, color: '#94a3b8' }}>Saving 3 car trips to the tip by collecting from Emma and 2 neighbors.</p>
+          <p style={{ margin: 0, color: '#94a3b8' }}>Saving 3 car trips to the tip by collecting from Nadia and 2 neighbors.</p>
         </div>
       </div>
 
       <div className="driver-bottom-panel" style={{ padding: '2.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', background: '#0f172a', borderTop: '1px solid #1e293b' }}>
         <h2 style={{ fontSize: '2rem', marginBottom: '0.5rem', color: '#fff' }}>Pickup: {itemName}</h2>
-        <p className="text-gray-400 mb-8" style={{ fontSize: '1.1rem' }}>Emma reported item ready at doorstep.</p>
+        <p className="text-gray-400 mb-8" style={{ fontSize: '1.1rem' }}>Nadia reported item ready at doorstep.</p>
         
         {!collected ? (
           <StickySwipe onComplete={() => {

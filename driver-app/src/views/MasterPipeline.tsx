@@ -9,7 +9,7 @@ import { useAuth } from '../contexts/AuthContext';
 type PipelineStage = 'resident' | 'ai' | 'driver' | 'warehouse';
 
 const STAGES: { id: PipelineStage; label: string; icon: string }[] = [
-  { id: 'resident', label: "Emma's Doorstep", icon: '🏠' },
+  { id: 'resident', label: "Nadia's Doorstep", icon: '🏠' },
   { id: 'ai', label: 'AI Triage', icon: '🧠' },
   { id: 'driver', label: 'Logistics Route', icon: '🚐' },
   { id: 'warehouse', label: 'Safety Hub', icon: '⚙️' }
