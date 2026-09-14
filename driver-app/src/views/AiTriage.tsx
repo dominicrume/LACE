@@ -59,6 +59,9 @@ export default function AiTriage({ onComplete }: { onComplete?: () => void }) {
   useEffect(() => {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, []);
+
   return (
     <div className="ai-core-portal full-screen-view" style={{ background: '#020617', color: '#fff', fontFamily: "'Space Mono', monospace", height: '100%' }}>
       
