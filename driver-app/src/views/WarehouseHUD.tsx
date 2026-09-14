@@ -83,37 +83,59 @@ export default function WarehouseHUD({ onComplete }: { onComplete?: () => void }
           {safetyStatus === 'idle' && 'WAITING FOR SCAN...'}
           {safetyStatus === 'testing' && 'PERFORMING ELECTRICAL INSULATION TEST...'}
           {safetyStatus === 'pass' && (
-            <div className="flex-col items-center">
-              <div className="mb-2">CERTIFIED SAFE ✅ (READY FOR REPAIR)</div>
-              <button onClick={() => onComplete && onComplete()} style={{ marginTop: '1rem', padding: '0.5rem 2rem', fontSize: '1rem', background: 'transparent', border: '1px solid #10b981', color: '#10b981', borderRadius: '4px', cursor: 'pointer' }}>
-                FINISH CYCLE
+            <div className="flex-col items-center w-full">
+              <div className="mb-2" style={{ color: '#10b981', fontSize: '1.2rem', fontWeight: 'bold' }}>CERTIFIED SAFE ✅ (READY FOR REFURBISHMENT)</div>
+              
+              <div style={{ background: '#022c22', padding: '1rem', borderRadius: '8px', border: '1px solid #059669', width: '100%', maxWidth: '600px', margin: '1rem auto', textAlign: 'left' }}>
+                <h3 style={{ color: '#10b981', margin: 0, marginBottom: '0.8rem', fontSize: '1.1rem' }}>Value Realized: Circular Economy Marketplace</h3>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, color: '#a7f3d0', fontSize: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <li>♻️ <span style={{ opacity: 0.8 }}>Ecological:</span> 100% item diverted from landfill</li>
+                  <li>💰 <span style={{ opacity: 0.8 }}>Financial:</span> Est. Resale Revenue <strong style={{ color: '#fff' }}>+£45.00</strong></li>
+                  <li>🌍 <span style={{ opacity: 0.8 }}>Social:</span> Corporate ESG Impact Score <strong style={{ color: '#fff' }}>+120 pts</strong></li>
+                </ul>
+              </div>
+
+              <button onClick={() => onComplete && onComplete()} style={{ marginTop: '0.5rem', padding: '0.8rem 2rem', fontSize: '1.1rem', background: '#10b981', color: '#111827', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>
+                FINISH CYCLE &rarr;
               </button>
             </div>
           )}
           {safetyStatus === 'fail' && (
-            <div className="flex-col items-center">
-              <div className="mb-2">HAZARDOUS ❌ (DO NOT REPAIR)</div>
-              <div style={{ fontSize: '1.2rem', color: '#fca5a5' }}>
-                Please isolate unit immediately. Click Reset below to await next scan.
+            <div className="flex-col items-center w-full">
+              <div className="mb-2" style={{ color: '#ef4444', fontSize: '1.2rem', fontWeight: 'bold' }}>HAZARDOUS ❌ (ROUTED FOR DECONSTRUCTION)</div>
+              
+              <div style={{ background: '#450a0a', padding: '1rem', borderRadius: '8px', border: '1px solid #dc2626', width: '100%', maxWidth: '600px', margin: '1rem auto', textAlign: 'left' }}>
+                <h3 style={{ color: '#ef4444', margin: 0, marginBottom: '0.8rem', fontSize: '1.1rem' }}>Value Realized: Material Recovery Facility</h3>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, color: '#fecaca', fontSize: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <li>🔧 <span style={{ opacity: 0.8 }}>Safety:</span> Faulty appliance isolated from consumer market</li>
+                  <li>🏗️ <span style={{ opacity: 0.8 }}>Recovery:</span> 1.2kg Copper & 0.8kg Steel Extracted</li>
+                  <li>💵 <span style={{ opacity: 0.8 }}>Financial:</span> Raw Commodity Sale Value <strong style={{ color: '#fff' }}>+£8.50</strong></li>
+                </ul>
               </div>
+
+              <button onClick={() => onComplete && onComplete()} style={{ marginTop: '0.5rem', padding: '0.8rem 2rem', fontSize: '1.1rem', background: '#ef4444', color: '#111827', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>
+                FINISH CYCLE &rarr;
+              </button>
             </div>
           )}
         </div>
 
-        <div className="pat-controls mt-6 flex gap-4 justify-center">
-          <button className="btn btn-outline" style={{ fontSize: '1rem', padding: '0.8rem 1.5rem' }} onClick={() => handleTest('pass')}>Simulate: PASS</button>
-          <button className="btn btn-outline" style={{ fontSize: '1rem', padding: '0.8rem 1.5rem' }} onClick={() => handleTest('fail')}>Simulate: FAIL</button>
-          <button 
-            className={`btn ${safetyStatus === 'fail' ? 'btn-danger' : 'btn-outline'}`} 
-            style={{ fontSize: '1rem', padding: '0.8rem 1.5rem', ...(safetyStatus === 'fail' ? { animation: 'pulse-red 2s infinite' } : {}) }}
-            onClick={() => {
-              setSafetyStatus('idle');
-              if (safetyStatus !== 'idle') playSound('scan');
-            }}
-          >
-            RESET TO WAITING
-          </button>
-        </div>
+        {safetyStatus !== 'pass' && safetyStatus !== 'fail' && (
+          <div className="pat-controls mt-6 flex gap-4 justify-center">
+            <button className="btn btn-outline" style={{ fontSize: '1rem', padding: '0.8rem 1.5rem' }} onClick={() => handleTest('pass')}>Simulate: PASS</button>
+            <button className="btn btn-outline" style={{ fontSize: '1rem', padding: '0.8rem 1.5rem' }} onClick={() => handleTest('fail')}>Simulate: FAIL</button>
+            <button 
+              className="btn btn-outline"
+              style={{ fontSize: '1rem', padding: '0.8rem 1.5rem' }}
+              onClick={() => {
+                setSafetyStatus('idle');
+                playSound('scan');
+              }}
+            >
+              RESET TO WAITING
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
