@@ -776,3 +776,95 @@ p {
 .neon-box-active {
   box-shadow: 0 0 20px 5px rgba(34, 197, 94, 0.4), inset 0 0 15px rgba(34, 197, 94, 0.2);
 }
+
+/* ==============================
+   Phase 13 Responsive UI
+   ============================== */
+@media (max-width: 900px) {
+  .ledger-stats-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .ledger-row {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+  }
+  .hud-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .portal-title {
+    font-size: 2.5rem;
+  }
+  .portal-card {
+    padding: 2rem 1.5rem;
+  }
+  .resident-title {
+    font-size: 2rem;
+  }
+  .btn-massive-scan {
+    width: 250px;
+    height: 250px;
+  }
+  .scanning-animation {
+    width: 250px;
+    height: 250px;
+  }
+  .btn-massive-scan .scan-icon {
+    font-size: 3.5rem;
+  }
+  .btn-massive-scan span {
+    font-size: 1.2rem;
+  }
+  .hud-panel {
+    padding: 1rem;
+  }
+  .power-ask {
+    padding: 1.5rem !important;
+  }
+  .power-ask h2 {
+    font-size: 1.8rem !important;
+  }
+  .power-ask p {
+    font-size: 1rem !important;
+  }
+  
+  /* Shared layouts */
+  .ai-triage-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Full screen view paddings */
+  .driver-bottom-panel {
+    padding: 1.5rem;
+  }
+  .auditor-ledger {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn-swipe-collect {
+    max-width: 100%;
+    height: 64px;
+  }
+  .swipe-thumb {
+    width: 56px;
+    height: 56px;
+  }
+  .swipe-text {
+    font-size: 1.2rem;
+  }
+  .ledger-title {
+    font-size: 1.8rem;
+  }
+  .btn-exit {
+    top: 1rem;
+    right: 1rem;
+    width: 40px;
+    height: 40px;
+  }
+}

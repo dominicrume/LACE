@@ -55,6 +55,7 @@ function StickySwipe({ onComplete }: { onComplete: () => void }) {
   return (
     <div 
       ref={containerRef}
+      className="btn-swipe-collect"
       style={{ 
         position: 'relative', width: '100%', maxWidth: '400px', height: '64px', 
         background: '#1e293b', borderRadius: '32px', overflow: 'hidden', 
@@ -65,15 +66,14 @@ function StickySwipe({ onComplete }: { onComplete: () => void }) {
       onMouseDown={(e) => { isDragging.current = true; handleMove(e.clientX); }}
       onTouchStart={(e) => { isDragging.current = true; handleMove(e.touches[0].clientX); }}
     >
-      <div style={{ position: 'absolute', width: '100%', textAlign: 'center', color: '#94a3b8', fontWeight: 'bold', pointerEvents: 'none', animation: progress === 0 ? 'pulse 2s infinite' : 'none' }}>
+      <div className="swipe-text" style={{ position: 'absolute', width: '100%', textAlign: 'center', color: '#94a3b8', fontWeight: 'bold', pointerEvents: 'none', animation: progress === 0 ? 'pulse 2s infinite' : 'none' }}>
         &gt;&gt; SWIPE NOW &gt;&gt;
       </div>
       
       {/* The filled progress background */}
       <div style={{ position: 'absolute', height: '100%', width: `${progress}%`, background: 'rgba(59, 130, 246, 0.2)', transition: isDragging.current ? 'none' : 'width 0.3s' }} />
 
-      {/* The thumb */}
-      <div style={{ 
+      <div className="swipe-thumb" style={{ 
         width: '56px', height: '56px', background: '#3b82f6', borderRadius: '50%', 
         display: 'flex', alignItems: 'center', justifyContent: 'center', 
         position: 'absolute', left: `calc(${progress}% - ${progress > 0 ? 56 * (progress/100) : 0}px + 4px)`,

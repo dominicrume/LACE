@@ -82,7 +82,7 @@ export default function AiTriage({ onComplete }: { onComplete?: () => void }) {
           <button className={`btn ${activeScenario === 'scrap' ? 'btn-primary' : 'btn-outline'}`} onClick={() => startSimulation('scrap')}>Upload Scrap Metal</button>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', width: '100%', maxWidth: '1000px' }}>
+        <div className="ai-triage-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', width: '100%', maxWidth: '1000px' }}>
           
           {/* Vision Simulation */}
           <div style={{ background: '#0f172a', borderRadius: '16px', border: '1px solid #1e293b', overflow: 'hidden', position: 'relative', height: '250px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
