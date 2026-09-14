@@ -45,7 +45,7 @@ export default function ResidentPortal({ onComplete }: { onComplete?: () => void
           <div ref={chatRef} style={{ padding: '1rem', flex: 1, minHeight: 0, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '0.8rem', scrollBehavior: 'smooth' }}>
             
             <div style={{ background: '#202c33', color: '#e9edef', padding: '0.8rem', borderRadius: '12px 12px 12px 0', alignSelf: 'flex-start', maxWidth: '85%' }}>
-              Hi Emma. To arrange a collection, please upload a photo of the item you want to recycle.
+              Hi Nadia. To arrange a collection, please upload a photo of the item you want to recycle.
             </div>
 
             {/* Photo 1 Sequence */}
