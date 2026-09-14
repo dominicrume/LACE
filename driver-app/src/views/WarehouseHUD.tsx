@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useSimulation } from '../contexts/SimulationContext';
+
+const ITEM_NAMES = {
+  toaster: 'TOASTER',
+  tv: 'SMASHED TV',
+  scrap: 'SCRAP METAL'
+};
 
 export default function WarehouseHUD() {
   const navigate = useNavigate();
   const { logout } = useAuth();
+  const { activeScenario } = useSimulation();
   const [safetyStatus, setSafetyStatus] = useState<'idle' | 'testing' | 'pass' | 'fail'>('idle');
 
   const playSound = (type: 'pass' | 'fail' | 'scan') => {
@@ -78,7 +86,7 @@ export default function WarehouseHUD() {
       </div>
 
       <div className="hud-panel safety-panel" style={{ width: '100%', maxWidth: '800px', minHeight: '400px' }}>
-        <h2 style={{ textAlign: 'center', fontSize: '2rem' }}>TOASTER PAT TEST STATION</h2>
+        <h2 style={{ textAlign: 'center', fontSize: '2rem' }}>{ITEM_NAMES[activeScenario]} PAT TEST STATION</h2>
         <p className="text-gray-400 mb-6" style={{ textAlign: 'center' }}>Awaiting technician barcode scan...</p>
         
         <div className="pat-status-box" data-status={safetyStatus} style={{ minHeight: '150px' }}>

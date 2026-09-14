@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { SimulationProvider } from './contexts/SimulationContext';
 
 import LandingPortal from './views/LandingPortal';
 import ResidentPortal from './views/ResidentPortal';
@@ -27,29 +28,31 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<LandingPortal />} />
-            
-            <Route path="/resident" element={
-              <ProtectedRoute><ResidentPortal /></ProtectedRoute>
-            } />
-            
-            <Route path="/driver" element={
-              <ProtectedRoute><DriverPortal /></ProtectedRoute>
-            } />
-            
-            <Route path="/warehouse" element={
-              <ProtectedRoute><WarehouseHUD /></ProtectedRoute>
-            } />
-            
-            <Route path="/ai-core" element={
-              <ProtectedRoute><AiTriage /></ProtectedRoute>
-            } />
-            
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </BrowserRouter>
+        <SimulationProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<LandingPortal />} />
+              
+              <Route path="/resident" element={
+                <ProtectedRoute><ResidentPortal /></ProtectedRoute>
+              } />
+              
+              <Route path="/driver" element={
+                <ProtectedRoute><DriverPortal /></ProtectedRoute>
+              } />
+              
+              <Route path="/warehouse" element={
+                <ProtectedRoute><WarehouseHUD /></ProtectedRoute>
+              } />
+              
+              <Route path="/ai-core" element={
+                <ProtectedRoute><AiTriage /></ProtectedRoute>
+              } />
+              
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </BrowserRouter>
+        </SimulationProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

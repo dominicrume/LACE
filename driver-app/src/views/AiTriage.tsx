@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useSimulation } from '../contexts/SimulationContext';
 
 const SCENARIOS = {
   toaster: {
@@ -38,8 +39,8 @@ const SCENARIOS = {
 export default function AiTriage() {
   const navigate = useNavigate();
   const { logout } = useAuth();
+  const { activeScenario, setActiveScenario } = useSimulation();
   
-  const [activeScenario, setActiveScenario] = useState<keyof typeof SCENARIOS | null>(null);
   const [phase, setPhase] = useState(0);
   const timerRef = useRef<any>(null);
 
