@@ -25,5 +25,5 @@ ENV FRONTEND_DIST_DIR="/app/frontend_dist"
 ENV PORT=8000
 EXPOSE $PORT
 
-# Run Uvicorn
-CMD uvicorn lcx.main:app --host 0.0.0.0 --port $PORT
+# Run Uvicorn with robust shell expansion
+CMD sh -c "uvicorn lcx.main:app --host 0.0.0.0 --port ${PORT:-8000}"

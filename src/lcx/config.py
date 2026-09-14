@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     s3_secret_key: str = "minioadmin"
     oidc_issuer_url: str = "http://localhost:8080/realms/lcx"
     oidc_audience: str = "lcx-api"
-    lcx_jwt_secret: str
+    lcx_jwt_secret: str = "super-secret-development-key-for-railway-testing"
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
