@@ -2,9 +2,9 @@ import { useState, useRef, useEffect } from 'react';
 import { useSimulation } from '../contexts/SimulationContext';
 
 const SCENARIOS = {
-  toaster: { name: 'Broken Toaster', img1: '/assets/toaster.jpg' },
-  tv: { name: 'Smashed TV', img1: '/assets/smashed-tv.jpg' },
-  scrap: { name: 'Scrap Metal', img1: '/assets/scrap-metal.jpg' }
+  toaster: { name: 'Broken Toaster', img1: '/assets/toaster.jpg', img2: '/assets/toaster_close.jpg' },
+  tv: { name: 'Smashed TV', img1: '/assets/smashed-tv.jpg', img2: '/assets/tv_close.jpg' },
+  scrap: { name: 'Scrap Metal', img1: '/assets/scrap-metal.jpg', img2: '/assets/scrap_close.jpg' }
 };
 
 export default function ResidentPortal({ onComplete }: { onComplete?: () => void }) {
@@ -73,7 +73,7 @@ export default function ResidentPortal({ onComplete }: { onComplete?: () => void
             {(status === 'scanning_2' || status === 'success') && (
               <div style={{ background: '#005c4b', padding: '0.4rem', borderRadius: '12px 12px 0 12px', alignSelf: 'flex-end', maxWidth: '85%', animation: 'slideUp 0.3s' }}>
                 <div style={{ width: '180px', height: '120px', background: '#000', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                  <img src={scenarioData.img1} alt={scenarioData.name} style={{ width: '100%', height: '100%', objectFit: 'cover', transform: 'scale(1.5) translate(-10%, -10%)' }} />
+                  <img src={scenarioData.img2} alt={`${scenarioData.name} Damage Detail`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
               </div>
             )}
