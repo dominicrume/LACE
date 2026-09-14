@@ -71,21 +71,21 @@ export default function AiTriage({ onComplete }: { onComplete?: () => void }) {
   return (
     <div className="ai-core-portal full-screen-view" style={{ background: '#020617', color: '#fff', fontFamily: "'Space Mono', monospace", height: '100%' }}>
       
-      <div style={{ padding: '2rem', display: 'flex', flexDirection: 'column', height: '100%', alignItems: 'center', justifyContent: 'center' }}>
-        <h1 style={{ fontSize: '2.5rem', color: '#8b5cf6', marginBottom: '0.5rem', textAlign: 'center' }}>LCX Digital Triage Engine</h1>
-        <p style={{ fontSize: '1rem', color: '#94a3b8', marginBottom: '2rem', textAlign: 'center' }}>"In milliseconds, the system determines the item's highest-value pathway."</p>
+      <div style={{ padding: '1rem', display: 'flex', flexDirection: 'column', height: '100%', alignItems: 'center', justifyContent: 'center' }}>
+        <h1 style={{ fontSize: '2rem', color: '#8b5cf6', marginBottom: '0.2rem', textAlign: 'center' }}>LCX Digital Triage Engine</h1>
+        <p style={{ fontSize: '0.9rem', color: '#94a3b8', marginBottom: '1rem', textAlign: 'center' }}>"In milliseconds, the system determines the item's highest-value pathway."</p>
 
         {/* Interactive Controls */}
-        <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
+        <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
           <button className={`btn ${activeScenario === 'toaster' ? 'btn-primary' : 'btn-outline'}`} onClick={() => startSimulation('toaster')}>Upload Toaster</button>
           <button className={`btn ${activeScenario === 'tv' ? 'btn-primary' : 'btn-outline'}`} onClick={() => startSimulation('tv')}>Upload Smashed TV</button>
           <button className={`btn ${activeScenario === 'scrap' ? 'btn-primary' : 'btn-outline'}`} onClick={() => startSimulation('scrap')}>Upload Scrap Metal</button>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', width: '100%', maxWidth: '1200px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', width: '100%', maxWidth: '1000px' }}>
           
           {/* Vision Simulation */}
-          <div style={{ background: '#0f172a', borderRadius: '16px', border: '1px solid #1e293b', overflow: 'hidden', position: 'relative', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ background: '#0f172a', borderRadius: '16px', border: '1px solid #1e293b', overflow: 'hidden', position: 'relative', height: '250px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             {currentData ? (
               <>
                 <img src={currentData.image} alt={currentData.name} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: phase === 0 ? 'blur(8px)' : 'none', transition: 'filter 0.5s' }} />
@@ -108,11 +108,11 @@ export default function AiTriage({ onComplete }: { onComplete?: () => void }) {
           </div>
 
           {/* Assessment Output */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-            <div style={{ background: '#0f172a', borderRadius: '16px', border: '1px solid #1e293b', padding: '2rem', minHeight: '200px' }}>
-              <h3 style={{ color: '#94a3b8', marginBottom: '1rem' }}>CONDITION ASSESSMENT</h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <div style={{ background: '#0f172a', borderRadius: '16px', border: '1px solid #1e293b', padding: '1rem', minHeight: '150px' }}>
+              <h3 style={{ color: '#94a3b8', marginBottom: '0.5rem', fontSize: '1rem' }}>CONDITION ASSESSMENT</h3>
               {currentData && phase >= 1 ? (
-                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '1rem', fontSize: '1.2rem' }}>
+                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '1rem' }}>
                   <li className="typewriter-text"><span style={{ color: '#3b82f6' }}>[✓]</span> Class: {currentData.class}</li>
                   {phase >= 2 && <li className="typewriter-text" style={{ animationDelay: '0.5s' }}><span style={{ color: '#3b82f6' }}>[✓]</span> Visual Damage: {currentData.visualDamage}</li>}
                   {phase >= 3 && <li className="typewriter-text" style={{ animationDelay: '1s' }}><span style={{ color: '#3b82f6' }}>[✓]</span> Hazmat Risk: {currentData.hazmat}</li>}
@@ -122,12 +122,12 @@ export default function AiTriage({ onComplete }: { onComplete?: () => void }) {
               )}
             </div>
 
-            <div style={{ background: '#0f172a', borderRadius: '16px', border: phase >= 2 ? '2px solid #8b5cf6' : '1px solid #1e293b', padding: '2rem', transition: 'all 0.3s', minHeight: '180px' }}>
-              <h3 style={{ color: '#94a3b8', marginBottom: '1rem' }}>ROUTING DECISION</h3>
+            <div style={{ background: '#0f172a', borderRadius: '16px', border: phase >= 2 ? '2px solid #8b5cf6' : '1px solid #1e293b', padding: '1rem', transition: 'all 0.3s', minHeight: '150px' }}>
+              <h3 style={{ color: '#94a3b8', marginBottom: '0.5rem', fontSize: '1rem' }}>ROUTING DECISION</h3>
               {currentData && phase >= 2 ? (
                 <div>
-                  <div style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#a78bfa', marginBottom: '0.5rem' }}>PATHWAY: {currentData.pathway}</div>
-                  <div style={{ color: '#22c55e', fontSize: '1.2rem', marginBottom: '1.5rem' }}>Action: {currentData.action}</div>
+                  <div style={{ fontSize: '1.8rem', fontWeight: 'bold', color: '#a78bfa', marginBottom: '0.2rem' }}>PATHWAY: {currentData.pathway}</div>
+                  <div style={{ color: '#22c55e', fontSize: '1rem', marginBottom: '1rem' }}>Action: {currentData.action}</div>
                   {phase >= 3 && (
                     <button 
                       onClick={() => onComplete && onComplete()}

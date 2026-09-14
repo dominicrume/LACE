@@ -35,8 +35,8 @@ export default function MasterPipeline() {
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#020617', color: '#fff' }}>
       
       {/* Top Header / Presenter Controls */}
-      <div style={{ padding: '1rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #1e293b', background: '#0f172a' }}>
-        <div style={{ fontWeight: 'bold', fontSize: '1.2rem', letterSpacing: '2px', color: '#38bdf8' }}>LACE v2</div>
+      <div style={{ padding: '0.5rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #1e293b', background: '#0f172a' }}>
+        <div style={{ fontWeight: 'bold', fontSize: '1rem', letterSpacing: '2px', color: '#38bdf8' }}>LACE v2</div>
         <div style={{ display: 'flex', gap: '1rem' }}>
           <select 
             value={activeScenario} 
@@ -55,7 +55,7 @@ export default function MasterPipeline() {
       </div>
 
       {/* The Gamified Pipeline Visualizer */}
-      <div style={{ padding: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center', borderBottom: '1px solid #1e293b', background: '#020617' }}>
+      <div style={{ padding: '1rem', display: 'flex', justifyContent: 'center', alignItems: 'center', borderBottom: '1px solid #1e293b', background: '#020617' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', width: '100%', maxWidth: '1000px', position: 'relative' }}>
           {STAGES.map((stage, idx) => {
             const isActive = idx === currentIndex;
@@ -79,11 +79,11 @@ export default function MasterPipeline() {
                   }}
                 >
                   <div style={{ 
-                    width: '60px', height: '60px', 
+                    width: '50px', height: '50px', 
                     borderRadius: '50%', 
                     background: isActive ? '#38bdf8' : (isPast ? '#10b981' : '#1e293b'),
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: '1.8rem',
+                    fontSize: '1.4rem',
                     boxShadow: isActive ? '0 0 20px rgba(56, 189, 248, 0.5)' : 'none'
                   }}>
                     {stage.icon}

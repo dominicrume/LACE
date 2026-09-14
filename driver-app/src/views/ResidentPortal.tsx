@@ -15,13 +15,13 @@ export default function ResidentPortal({ onComplete }: { onComplete?: () => void
       <div className="resident-content" style={{ maxWidth: '400px', margin: '0 auto', display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'center' }}>
         
         {/* WhatsApp-style Interface Simulation */}
-        <div style={{ background: '#111b21', borderRadius: '24px', overflow: 'hidden', border: '1px solid #2a3942', boxShadow: '0 20px 40px rgba(0,0,0,0.5)' }}>
+        <div style={{ background: '#111b21', borderRadius: '24px', overflow: 'hidden', border: '1px solid #2a3942', boxShadow: '0 20px 40px rgba(0,0,0,0.5)', display: 'flex', flexDirection: 'column', height: '400px' }}>
           <div style={{ background: '#202c33', padding: '1.5rem', textAlign: 'center', borderBottom: '1px solid #2a3942' }}>
             <h2 style={{ margin: 0, fontSize: '1.2rem', color: '#e9edef' }}>LCX Ladywood</h2>
             <p style={{ margin: 0, fontSize: '0.9rem', color: '#8696a0' }}>Online</p>
           </div>
 
-          <div style={{ padding: '1.5rem', minHeight: '300px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div style={{ padding: '1.5rem', flex: 1, minHeight: 0, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             
             <div style={{ background: '#202c33', color: '#e9edef', padding: '1rem', borderRadius: '12px 12px 12px 0', alignSelf: 'flex-start', maxWidth: '85%' }}>
               Hi Emma. To arrange a collection, please upload a photo of the item you want to recycle.
