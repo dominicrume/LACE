@@ -83,9 +83,9 @@ export default function AiTriage() {
 
         {/* Interactive Controls */}
         <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
-          <button className="btn btn-primary" onClick={() => startSimulation('toaster')}>Upload Toaster</button>
-          <button className="btn btn-outline" onClick={() => startSimulation('tv')}>Upload Smashed TV</button>
-          <button className="btn btn-outline" onClick={() => startSimulation('scrap')}>Upload Scrap Metal</button>
+          <button className={`btn ${activeScenario === 'toaster' ? 'btn-primary' : 'btn-outline'}`} onClick={() => startSimulation('toaster')}>Upload Toaster</button>
+          <button className={`btn ${activeScenario === 'tv' ? 'btn-primary' : 'btn-outline'}`} onClick={() => startSimulation('tv')}>Upload Smashed TV</button>
+          <button className={`btn ${activeScenario === 'scrap' ? 'btn-primary' : 'btn-outline'}`} onClick={() => startSimulation('scrap')}>Upload Scrap Metal</button>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', width: '100%', maxWidth: '1200px' }}>
