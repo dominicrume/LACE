@@ -59,6 +59,10 @@ export default function AiTriage({ onComplete }: { onComplete?: () => void }) {
   };
 
   useEffect(() => {
+    // Auto-start the simulation if an item is already active from Resident Portal
+    if (activeScenario) {
+      startSimulation(activeScenario as keyof typeof SCENARIOS);
+    }
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };

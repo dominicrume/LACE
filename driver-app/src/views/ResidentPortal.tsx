@@ -53,22 +53,31 @@ export default function ResidentPortal({ onComplete }: { onComplete?: () => void
             <button 
               onClick={handleScan}
               disabled={status !== 'idle'}
-              style={{ flex: 1, padding: '1rem', borderRadius: '24px', border: 'none', background: '#00a884', color: '#111b21', fontWeight: 700, fontSize: '1.1rem', cursor: 'pointer' }}
+              style={{ width: '100%', padding: '1rem', borderRadius: '24px', border: 'none', background: '#00a884', color: '#111b21', fontWeight: 700, fontSize: '1.1rem', cursor: 'pointer' }}
             >
               📷 Snap Photo
             </button>
-            {status === 'success' && (
-              <button 
-                onClick={() => {
-                  if (onComplete) onComplete();
-                }} 
-                style={{ background: 'transparent', border: 'none', color: '#8b5cf6', fontWeight: 'bold', cursor: 'pointer', fontSize: '1rem' }}
-              >
-                Send to Triage &rarr;
-              </button>
-            )}
           </div>
         </div>
+
+        {status === 'success' && (
+          <button 
+            className="btn btn-primary"
+            onClick={() => {
+              if (onComplete) onComplete();
+            }} 
+            style={{ 
+              marginTop: '2rem', 
+              width: '100%', 
+              padding: '1.5rem', 
+              fontSize: '1.2rem', 
+              animation: 'slideUp 0.5s ease-out',
+              background: 'linear-gradient(135deg, #8b5cf6, #6d28d9)'
+            }}
+          >
+            Transfer to AI Triage &rarr;
+          </button>
+        )}
 
       </div>
     </div>
