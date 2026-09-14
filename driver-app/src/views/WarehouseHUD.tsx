@@ -21,6 +21,54 @@ export default function WarehouseHUD() {
     return () => ws.close();
   }, []);
 
+  const playSound = (type: 'pass' | 'fail' | 'scan') => {
+    const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+    if (!AudioContext) return;
+    const ctx = new AudioContext();
+    const osc = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+    
+    osc.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    
+    if (type === 'pass') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(800, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.1);
+      gainNode.gain.setValueAtTime(0, ctx.currentTime);
+      gainNode.gain.linearRampToValueAtTime(0.5, ctx.currentTime + 0.05);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.5);
+    } else if (type === 'fail') {
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(120, ctx.currentTime);
+      gainNode.gain.setValueAtTime(0, ctx.currentTime);
+      gainNode.gain.linearRampToValueAtTime(0.8, ctx.currentTime + 0.05);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 1.5);
+      // LFO for alarm effect
+      const lfo = ctx.createOscillator();
+      lfo.type = 'sine';
+      lfo.frequency.value = 5;
+      const lfoGain = ctx.createGain();
+      lfoGain.gain.value = 50;
+      lfo.connect(lfoGain);
+      lfoGain.connect(osc.frequency);
+      lfo.start(ctx.currentTime);
+      lfo.stop(ctx.currentTime + 1.5);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 1.5);
+    } else if (type === 'scan') {
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(1000, ctx.currentTime);
+      gainNode.gain.setValueAtTime(0, ctx.currentTime);
+      gainNode.gain.linearRampToValueAtTime(0.1, ctx.currentTime + 0.01);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.1);
+    }
+  };
+
   const handleExit = () => {
     logout();
     navigate('/');
@@ -28,7 +76,11 @@ export default function WarehouseHUD() {
 
   const handleTest = (result: 'pass' | 'fail') => {
     setSafetyStatus('testing');
-    setTimeout(() => setSafetyStatus(result), 1500);
+    playSound('scan');
+    setTimeout(() => {
+      setSafetyStatus(result);
+      playSound(result);
+    }, 1500);
   };
 
   return (
@@ -65,13 +117,29 @@ export default function WarehouseHUD() {
             {safetyStatus === 'idle' && 'WAITING FOR SCAN...'}
             {safetyStatus === 'testing' && 'PERFORMING ELECTRICAL INSULATION TEST...'}
             {safetyStatus === 'pass' && 'CERTIFIED SAFE ✅'}
-            {safetyStatus === 'fail' && 'HAZARDOUS ❌ (DO NOT SHIP)'}
+            {safetyStatus === 'fail' && (
+              <div className="flex-col items-center">
+                <div className="mb-2">HAZARDOUS ❌ (DO NOT SHIP)</div>
+                <div style={{ fontSize: '1rem', color: '#fca5a5' }}>
+                  Please isolate unit immediately. Click Reset below to await next scan.
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="pat-controls mt-6 flex gap-4">
             <button className="btn btn-outline" onClick={() => handleTest('pass')}>Simulate: PASS</button>
             <button className="btn btn-outline" onClick={() => handleTest('fail')}>Simulate: FAIL</button>
-            <button className="btn btn-outline" onClick={() => setSafetyStatus('idle')}>RESET</button>
+            <button 
+              className={`btn ${safetyStatus === 'fail' ? 'btn-danger' : 'btn-outline'}`} 
+              onClick={() => {
+                setSafetyStatus('idle');
+                if (safetyStatus !== 'idle') playSound('scan');
+              }}
+              style={safetyStatus === 'fail' ? { animation: 'pulse-red 2s infinite' } : {}}
+            >
+              RESET TO WAITING
+            </button>
           </div>
         </div>
       </div>
