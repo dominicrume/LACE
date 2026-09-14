@@ -78,10 +78,10 @@ export default function AiTriage({ onComplete }: { onComplete?: () => void }) {
           <button className={`btn ${activeScenario === 'scrap' ? 'btn-primary' : 'btn-outline'}`} onClick={() => startSimulation('scrap')}>Upload Scrap Metal</button>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', width: '100%', maxWidth: '1200px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', width: '100%', maxWidth: '1200px' }}>
           
           {/* Vision Simulation */}
-          <div style={{ background: '#0f172a', borderRadius: '16px', border: '1px solid #1e293b', overflow: 'hidden', position: 'relative', height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ background: '#0f172a', borderRadius: '16px', border: '1px solid #1e293b', overflow: 'hidden', position: 'relative', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             {currentData ? (
               <>
                 <img src={currentData.image} alt={currentData.name} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: phase === 0 ? 'blur(8px)' : 'none', transition: 'filter 0.5s' }} />

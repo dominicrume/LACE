@@ -373,7 +373,7 @@ p {
 .resident-title {
   font-size: 3rem;
   font-weight: 700;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
 }
 
 .btn-massive-scan {
@@ -461,7 +461,7 @@ p {
 
 .route-path {
   position: absolute;
-  top: 20%; left: 20%; right: 20%; bottom: 40%;
+  top: 10%; left: 10%; right: 10%; bottom: 10%;
   border: 8px dashed #3b82f6;
   border-radius: 40px;
   opacity: 0.3;
@@ -661,7 +661,7 @@ p {
 /* -- Auditor Ledger -- */
 .auditor-ledger {
   background: #0f172a;
-  padding: 4rem;
+  padding: 2rem;
   align-items: center;
 }
 
@@ -671,7 +671,7 @@ p {
 }
 
 .ledger-title {
-  font-size: 3.5rem;
+  font-size: 2.5rem;
   font-weight: 800;
   background: linear-gradient(135deg, #a78bfa, #8b5cf6);
   -webkit-background-clip: text;
