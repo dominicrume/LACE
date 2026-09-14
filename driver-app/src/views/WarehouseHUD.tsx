@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useSimulation } from '../contexts/SimulationContext';
 
 const ITEM_NAMES = {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 export default function ResidentPortal({ onComplete }: { onComplete?: () => void }) {
   const [status, setStatus] = useState<'idle' | 'scanning' | 'success'>('idle');
