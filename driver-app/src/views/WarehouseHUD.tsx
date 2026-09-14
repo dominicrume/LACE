@@ -68,16 +68,16 @@ export default function WarehouseHUD({ onComplete }: { onComplete?: () => void }
   };
 
   return (
-    <div className="warehouse-hud full-screen-view" style={{ height: '100%' }}>
+    <div className="warehouse-hud full-screen-view" style={{ height: '100%', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
       
-      <div style={{ maxWidth: '800px', width: '100%', textAlign: 'center', marginBottom: '2rem' }}>
-        <h1 style={{ fontSize: '3rem', color: '#f59e0b', marginBottom: '1rem' }}>Local Repair Hub</h1>
+      <div style={{ maxWidth: '800px', width: '100%', textAlign: 'center', marginBottom: '1rem' }}>
+        <h1 style={{ fontSize: '2.5rem', color: '#f59e0b', marginBottom: '0.5rem' }}>Local Repair Hub</h1>
         <p style={{ fontSize: '1.2rem', color: '#94a3b8' }}>"Safety and compliance are non-negotiable. All electrical goods undergo strict visual inspection and PAT testing by qualified technicians."</p>
       </div>
 
-      <div className="hud-panel safety-panel" style={{ width: '100%', maxWidth: '800px', minHeight: '400px' }}>
-        <h2 style={{ textAlign: 'center', fontSize: '2rem' }}>{ITEM_NAMES[activeScenario]} PAT TEST STATION</h2>
-        <p className="text-gray-400 mb-6" style={{ textAlign: 'center' }}>Awaiting technician barcode scan...</p>
+      <div className="hud-panel safety-panel" style={{ width: '100%', maxWidth: '800px', minHeight: '300px' }}>
+        <h2 style={{ textAlign: 'center', fontSize: '1.5rem', marginBottom: '0.5rem' }}>{ITEM_NAMES[activeScenario]} PAT TEST STATION</h2>
+        <p className="text-gray-400 mb-4" style={{ textAlign: 'center' }}>Awaiting technician barcode scan...</p>
         
         <div className="pat-status-box" data-status={safetyStatus} style={{ minHeight: '150px' }}>
           {safetyStatus === 'idle' && 'WAITING FOR SCAN...'}
@@ -100,12 +100,12 @@ export default function WarehouseHUD({ onComplete }: { onComplete?: () => void }
           )}
         </div>
 
-        <div className="pat-controls mt-8 flex gap-6 justify-center">
-          <button className="btn btn-outline" style={{ fontSize: '1.2rem', padding: '1rem 2rem' }} onClick={() => handleTest('pass')}>Simulate: PASS</button>
-          <button className="btn btn-outline" style={{ fontSize: '1.2rem', padding: '1rem 2rem' }} onClick={() => handleTest('fail')}>Simulate: FAIL</button>
+        <div className="pat-controls mt-6 flex gap-4 justify-center">
+          <button className="btn btn-outline" style={{ fontSize: '1rem', padding: '0.8rem 1.5rem' }} onClick={() => handleTest('pass')}>Simulate: PASS</button>
+          <button className="btn btn-outline" style={{ fontSize: '1rem', padding: '0.8rem 1.5rem' }} onClick={() => handleTest('fail')}>Simulate: FAIL</button>
           <button 
             className={`btn ${safetyStatus === 'fail' ? 'btn-danger' : 'btn-outline'}`} 
-            style={{ fontSize: '1.2rem', padding: '1rem 2rem', ...(safetyStatus === 'fail' ? { animation: 'pulse-red 2s infinite' } : {}) }}
+            style={{ fontSize: '1rem', padding: '0.8rem 1.5rem', ...(safetyStatus === 'fail' ? { animation: 'pulse-red 2s infinite' } : {}) }}
             onClick={() => {
               setSafetyStatus('idle');
               if (safetyStatus !== 'idle') playSound('scan');

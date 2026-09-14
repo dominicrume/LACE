@@ -21,7 +21,7 @@ export default function ResidentPortal({ onComplete }: { onComplete?: () => void
             <p style={{ margin: 0, fontSize: '0.9rem', color: '#8696a0' }}>Online</p>
           </div>
 
-          <div style={{ padding: '2rem 1.5rem', minHeight: '400px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div style={{ padding: '1.5rem', minHeight: '300px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             
             <div style={{ background: '#202c33', color: '#e9edef', padding: '1rem', borderRadius: '12px 12px 12px 0', alignSelf: 'flex-start', maxWidth: '85%' }}>
               Hi Emma. To arrange a collection, please upload a photo of the item you want to recycle.

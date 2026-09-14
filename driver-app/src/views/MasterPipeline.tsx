@@ -112,16 +112,16 @@ export default function MasterPipeline() {
 
       {/* The Active Terminal (Morphing View) */}
       <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, transition: 'opacity 0.4s', opacity: currentStage === 'resident' ? 1 : 0, pointerEvents: currentStage === 'resident' ? 'auto' : 'none', overflowY: 'auto' }}>
+        <div style={{ position: 'absolute', inset: 0, transition: 'opacity 0.4s', opacity: currentStage === 'resident' ? 1 : 0, pointerEvents: currentStage === 'resident' ? 'auto' : 'none' }}>
           <ResidentPortal onComplete={handleNext} />
         </div>
-        <div style={{ position: 'absolute', inset: 0, transition: 'opacity 0.4s', opacity: currentStage === 'ai' ? 1 : 0, pointerEvents: currentStage === 'ai' ? 'auto' : 'none', overflowY: 'auto' }}>
+        <div style={{ position: 'absolute', inset: 0, transition: 'opacity 0.4s', opacity: currentStage === 'ai' ? 1 : 0, pointerEvents: currentStage === 'ai' ? 'auto' : 'none' }}>
           <AiTriage onComplete={handleNext} />
         </div>
-        <div style={{ position: 'absolute', inset: 0, transition: 'opacity 0.4s', opacity: currentStage === 'driver' ? 1 : 0, pointerEvents: currentStage === 'driver' ? 'auto' : 'none', overflowY: 'auto' }}>
+        <div style={{ position: 'absolute', inset: 0, transition: 'opacity 0.4s', opacity: currentStage === 'driver' ? 1 : 0, pointerEvents: currentStage === 'driver' ? 'auto' : 'none' }}>
           <DriverPortal onComplete={handleNext} />
         </div>
-        <div style={{ position: 'absolute', inset: 0, transition: 'opacity 0.4s', opacity: currentStage === 'warehouse' ? 1 : 0, pointerEvents: currentStage === 'warehouse' ? 'auto' : 'none', overflowY: 'auto' }}>
+        <div style={{ position: 'absolute', inset: 0, transition: 'opacity 0.4s', opacity: currentStage === 'warehouse' ? 1 : 0, pointerEvents: currentStage === 'warehouse' ? 'auto' : 'none' }}>
           <WarehouseHUD onComplete={handleNext} />
         </div>
       </div>
