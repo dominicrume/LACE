@@ -340,3 +340,20 @@ def pat_signoff(item_id: int):
         )
         s.commit()
         return {"status": "signed_off"}
+
+# --- Static File Serving (for Railway Deployment) ---
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
+
+FRONTEND_DIST = os.environ.get("FRONTEND_DIST_DIR", "")
+if FRONTEND_DIST and os.path.exists(FRONTEND_DIST):
+    app.mount("/assets", StaticFiles(directory=os.path.join(FRONTEND_DIST, "assets")), name="assets")
+    
+    @app.get("/{full_path:path}")
+    async def serve_spa(full_path: str):
+        if full_path.startswith("api/") or full_path.startswith("ws/"):
+            raise HTTPException(status_code=404, detail="API route not found")
+        path = os.path.join(FRONTEND_DIST, full_path)
+        if os.path.isfile(path):
+            return FileResponse(path)
+        return FileResponse(os.path.join(FRONTEND_DIST, "index.html"))
