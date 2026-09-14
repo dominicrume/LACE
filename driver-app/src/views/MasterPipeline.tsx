@@ -122,7 +122,7 @@ export default function MasterPipeline() {
           <DriverPortal onComplete={handleNext} />
         </div>
         <div style={{ position: 'absolute', inset: 0, transition: 'opacity 0.4s', opacity: currentStage === 'warehouse' ? 1 : 0, pointerEvents: currentStage === 'warehouse' ? 'auto' : 'none' }}>
-          <WarehouseHUD onComplete={handleNext} />
+          <WarehouseHUD />
         </div>
       </div>
 

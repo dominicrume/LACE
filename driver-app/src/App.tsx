@@ -7,6 +7,7 @@ import { SimulationProvider } from './contexts/SimulationContext';
 
 import LandingPortal from './views/LandingPortal';
 import MasterPipeline from './views/MasterPipeline';
+import AuditorLedger from './views/AuditorLedger';
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchOnWindowFocus: false, staleTime: 1000 * 60 } },
@@ -34,6 +35,17 @@ function AnimatedRoutes() {
             <ProtectedRoute>
               <div className="page-transition">
                 <MasterPipeline />
+              </div>
+            </ProtectedRoute>
+          } 
+        />
+        
+        <Route 
+          path="/ledger" 
+          element={
+            <ProtectedRoute>
+              <div className="page-transition">
+                <AuditorLedger />
               </div>
             </ProtectedRoute>
           } 

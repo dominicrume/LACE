@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useSimulation } from '../contexts/SimulationContext';
 
 const ITEM_NAMES = {
@@ -7,7 +8,8 @@ const ITEM_NAMES = {
   scrap: 'SCRAP METAL'
 };
 
-export default function WarehouseHUD({ onComplete }: { onComplete?: () => void }) {
+export default function WarehouseHUD() {
+  const navigate = useNavigate();
   const { activeScenario } = useSimulation();
   const [safetyStatus, setSafetyStatus] = useState<'idle' | 'testing' | 'pass' | 'fail'>('idle');
 
@@ -95,9 +97,17 @@ export default function WarehouseHUD({ onComplete }: { onComplete?: () => void }
                 </ul>
               </div>
 
-              <button onClick={() => onComplete && onComplete()} style={{ marginTop: '0.5rem', padding: '0.8rem 2rem', fontSize: '1.1rem', background: '#10b981', color: '#111827', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>
-                FINISH CYCLE &rarr;
-              </button>
+              <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem' }}>
+                <button onClick={() => {
+                  setSafetyStatus('idle');
+                  playSound('scan');
+                }} style={{ padding: '0.8rem 2rem', fontSize: '1.1rem', background: 'transparent', color: '#10b981', border: '1px solid #10b981', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>
+                  RETEST
+                </button>
+                <button onClick={() => navigate('/ledger')} style={{ padding: '0.8rem 2rem', fontSize: '1.1rem', background: '#10b981', color: '#111827', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>
+                  FINISH CYCLE &rarr;
+                </button>
+              </div>
             </div>
           )}
           {safetyStatus === 'fail' && (
@@ -113,9 +123,17 @@ export default function WarehouseHUD({ onComplete }: { onComplete?: () => void }
                 </ul>
               </div>
 
-              <button onClick={() => onComplete && onComplete()} style={{ marginTop: '0.5rem', padding: '0.8rem 2rem', fontSize: '1.1rem', background: '#ef4444', color: '#111827', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>
-                FINISH CYCLE &rarr;
-              </button>
+              <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem' }}>
+                <button onClick={() => {
+                  setSafetyStatus('idle');
+                  playSound('scan');
+                }} style={{ padding: '0.8rem 2rem', fontSize: '1.1rem', background: 'transparent', color: '#ef4444', border: '1px solid #ef4444', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>
+                  RETEST
+                </button>
+                <button onClick={() => navigate('/ledger')} style={{ padding: '0.8rem 2rem', fontSize: '1.1rem', background: '#ef4444', color: '#111827', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>
+                  FINISH CYCLE &rarr;
+                </button>
+              </div>
             </div>
           )}
         </div>
