@@ -48,7 +48,7 @@ export default function ResidentPortal() {
 
             {status === 'scanning' && (
               <div style={{ background: '#202c33', color: '#e9edef', padding: '1rem', borderRadius: '12px 12px 12px 0', alignSelf: 'flex-start', maxWidth: '85%' }}>
-                <span style={{ animation: 'pulse 1s infinite' }}>Analyzing image...</span>
+                <span style={{ animation: 'pulse 1s infinite' }}>Uploading to LACE network...</span>
               </div>
             )}
 

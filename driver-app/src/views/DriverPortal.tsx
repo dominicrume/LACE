@@ -112,7 +112,7 @@ export default function DriverPortal() {
         {/* Dynamic Route Clustering explicitly for Emma */}
         <div className="route-marker" style={{ top: '30%', left: '40%', opacity: 0.5, transform: 'scale(0.8)' }}>📍 Neighbor 1</div>
         <div className="route-marker" style={{ top: '70%', left: '60%', opacity: 0.5, transform: 'scale(0.8)' }}>📍 Neighbor 2</div>
-        <div className="route-marker" style={{ top: '50%', left: '50%', zIndex: 10 }}>📍 Emma's House, Ladywood</div>
+        <div className="route-marker beacon-pulse" style={{ top: '50%', left: '50%', zIndex: 10 }}>📍 Emma's House, Ladywood</div>
         
         <div style={{ position: 'absolute', top: '1rem', left: '1rem', background: 'rgba(0,0,0,0.85)', padding: '1rem', borderRadius: '12px', borderLeft: '4px solid #10b981' }}>
           <h3 style={{ color: '#10b981', margin: 0 }}>Smart Collection Route</h3>

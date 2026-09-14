@@ -97,7 +97,7 @@ export default function AiTriage() {
                 <img src={currentData.image} alt={currentData.name} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: phase === 0 ? 'blur(8px)' : 'none', transition: 'filter 0.5s' }} />
                 
                 {phase >= 1 && (
-                  <div style={{ position: 'absolute', width: '250px', height: '250px', border: '3px dashed #22c55e', background: 'rgba(34, 197, 94, 0.1)', animation: 'pulse 2s infinite' }}>
+                  <div className="neon-box-active" style={{ position: 'absolute', width: '250px', height: '250px', border: '3px dashed #22c55e', background: 'rgba(34, 197, 94, 0.1)', animation: 'pulse 2s infinite' }}>
                     <span style={{ position: 'absolute', top: '-28px', left: '-3px', background: '#22c55e', color: '#000', padding: '4px 10px', fontWeight: 'bold' }}>{currentData.bbox}</span>
                   </div>
                 )}
@@ -119,9 +119,9 @@ export default function AiTriage() {
               <h3 style={{ color: '#94a3b8', marginBottom: '1rem' }}>CONDITION ASSESSMENT</h3>
               {currentData && phase >= 1 ? (
                 <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '1rem', fontSize: '1.2rem' }}>
-                  <li><span style={{ color: '#3b82f6' }}>[✓]</span> Class: {currentData.class}</li>
-                  <li><span style={{ color: '#3b82f6' }}>[✓]</span> Visual Damage: {currentData.visualDamage}</li>
-                  <li><span style={{ color: '#3b82f6' }}>[✓]</span> Hazmat Risk: {currentData.hazmat}</li>
+                  <li className="typewriter-text"><span style={{ color: '#3b82f6' }}>[✓]</span> Class: {currentData.class}</li>
+                  {phase >= 2 && <li className="typewriter-text" style={{ animationDelay: '0.5s' }}><span style={{ color: '#3b82f6' }}>[✓]</span> Visual Damage: {currentData.visualDamage}</li>}
+                  {phase >= 3 && <li className="typewriter-text" style={{ animationDelay: '1s' }}><span style={{ color: '#3b82f6' }}>[✓]</span> Hazmat Risk: {currentData.hazmat}</li>}
                 </ul>
               ) : (
                 <div style={{ color: '#475569' }}>Waiting for data...</div>
