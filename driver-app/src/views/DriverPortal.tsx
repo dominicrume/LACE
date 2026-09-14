@@ -1,6 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
 import { useSimulation } from '../contexts/SimulationContext';
 
 const ITEM_NAMES = {
@@ -90,22 +88,14 @@ function StickySwipe({ onComplete }: { onComplete: () => void }) {
   );
 }
 
-export default function DriverPortal() {
-  const navigate = useNavigate();
-  const { logout } = useAuth();
+export default function DriverPortal({ onComplete }: { onComplete?: () => void }) {
   const { activeScenario } = useSimulation();
   const [collected, setCollected] = useState(false);
-
-  const handleExit = () => {
-    logout();
-    navigate('/');
-  };
 
   const itemName = ITEM_NAMES[activeScenario];
 
   return (
-    <div className="driver-portal full-screen-view">
-      <button className="btn-exit" onClick={handleExit}>&times;</button>
+    <div className="driver-portal full-screen-view" style={{ height: '100%' }}>
 
       <div className="driver-map-sim">
         <div className="route-path"></div>
@@ -132,7 +122,13 @@ export default function DriverPortal() {
         ) : (
           <div className="badge success" style={{ padding: '1.5rem', justifyContent: 'center', fontSize: '1.4rem', width: '100%', maxWidth: '500px', textAlign: 'center', background: 'rgba(16, 185, 129, 0.1)', border: '2px solid #10b981', borderRadius: '16px' }}>
             <div style={{ color: '#10b981', fontWeight: 'bold', marginBottom: '0.5rem' }}>ITEM COLLECTED ✅</div>
-            <div style={{ fontSize: '1rem', color: '#94a3b8' }}>Item is routed directly to the Local Repair Hub.</div>
+            <div style={{ fontSize: '1rem', color: '#94a3b8', marginBottom: '1rem' }}>Item is routed directly to the Local Repair Hub.</div>
+            <button 
+              onClick={() => onComplete && onComplete()}
+              style={{ background: '#10b981', color: '#fff', border: 'none', padding: '0.5rem 1.5rem', borderRadius: '8px', fontSize: '1rem', cursor: 'pointer', fontWeight: 'bold' }}
+            >
+              Transfer to Hub &rarr;
+            </button>
           </div>
         )}
       </div>

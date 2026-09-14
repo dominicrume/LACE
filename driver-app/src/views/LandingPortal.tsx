@@ -4,40 +4,13 @@ import { useNavigate } from 'react-router-dom';
 
 const CARDS = [
   {
-    id: 'resident',
-    title: "Emma's Doorstep",
-    description: 'WhatsApp-style Triage',
-    icon: '📱',
-    username: 'user1',
-    color: '#3b82f6', 
-    route: '/resident'
-  },
-  {
-    id: 'ai-core',
-    title: 'LCX AI Core',
-    description: 'Computer Vision Assessment',
-    icon: '🧠',
+    id: 'system',
+    title: 'Enter LACE Pipeline',
+    description: 'Launch the unified demonstration',
+    icon: '🚀',
     username: 'admin1',
-    color: '#8b5cf6', 
-    route: '/ai-core'
-  },
-  {
-    id: 'driver',
-    title: 'Logistics Route',
-    description: 'Dynamic Collection Clustering',
-    icon: '🚐',
-    username: 'tech1',
-    color: '#10b981', 
-    route: '/driver'
-  },
-  {
-    id: 'warehouse',
-    title: 'Repair Hub',
-    description: 'PAT Safety Certification',
-    icon: '🛠️',
-    username: 'tech1', 
-    color: '#f59e0b', 
-    route: '/warehouse'
+    color: '#3b82f6', 
+    route: '/app'
   }
 ];
 
@@ -85,14 +58,14 @@ export default function LandingPortal() {
         <p className="portal-subtitle">AI-Assisted Doorstep Collection & Repair</p>
       </div>
 
-      <div className="portal-grid">
+      <div className="portal-grid" style={{ display: 'flex', justifyContent: 'center' }}>
         {CARDS.map((card) => (
           <button 
             key={card.id}
             className={`portal-card ${loading === card.id ? 'loading' : ''}`}
             onClick={() => handleSelectJourney(card)}
             disabled={loading !== null}
-            style={{ '--card-color': card.color } as any}
+            style={{ '--card-color': card.color, width: '100%', maxWidth: '500px' } as any}
           >
             <div className="portal-card-icon">{card.icon}</div>
             <h2 className="portal-card-title">{card.title}</h2>

@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
 import { useSimulation } from '../contexts/SimulationContext';
 
 const SCENARIOS = {
@@ -36,9 +34,7 @@ const SCENARIOS = {
   }
 };
 
-export default function AiTriage() {
-  const navigate = useNavigate();
-  const { logout } = useAuth();
+export default function AiTriage({ onComplete }: { onComplete?: () => void }) {
   const { activeScenario, setActiveScenario } = useSimulation();
   
   const [phase, setPhase] = useState(0);
@@ -63,19 +59,8 @@ export default function AiTriage() {
   useEffect(() => {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, []);
-
-  const handleExit = () => {
-    logout();
-    navigate('/');
-  };
-
-  const currentData = activeScenario ? SCENARIOS[activeScenario] : null;
-
   return (
-    <div className="ai-core-portal full-screen-view" style={{ background: '#020617', color: '#fff', fontFamily: "'Space Mono', monospace" }}>
-      <button className="btn-exit" onClick={handleExit}>&times;</button>
+    <div className="ai-core-portal full-screen-view" style={{ background: '#020617', color: '#fff', fontFamily: "'Space Mono', monospace", height: '100%' }}>
       
       <div style={{ padding: '2rem', display: 'flex', flexDirection: 'column', height: '100%', alignItems: 'center', justifyContent: 'center' }}>
         <h1 style={{ fontSize: '2.5rem', color: '#8b5cf6', marginBottom: '0.5rem', textAlign: 'center' }}>LCX Digital Triage Engine</h1>
@@ -133,7 +118,15 @@ export default function AiTriage() {
               {currentData && phase >= 2 ? (
                 <div>
                   <div style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#a78bfa', marginBottom: '0.5rem' }}>PATHWAY: {currentData.pathway}</div>
-                  <div style={{ color: '#22c55e', fontSize: '1.2rem' }}>Action: {currentData.action}</div>
+                  <div style={{ color: '#22c55e', fontSize: '1.2rem', marginBottom: '1.5rem' }}>Action: {currentData.action}</div>
+                  {phase >= 3 && (
+                    <button 
+                      onClick={() => onComplete && onComplete()}
+                      style={{ padding: '0.8rem 1.5rem', background: '#8b5cf6', color: '#fff', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', fontSize: '1.1rem' }}
+                    >
+                      Push to Logistics &rarr;
+                    </button>
+                  )}
                 </div>
               ) : (
                 <div style={{ color: '#475569' }}>Calculating optimal pathway...</div>

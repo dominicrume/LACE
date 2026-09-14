@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
 import { useSimulation } from '../contexts/SimulationContext';
 
 const ITEM_NAMES = {
@@ -9,9 +7,7 @@ const ITEM_NAMES = {
   scrap: 'SCRAP METAL'
 };
 
-export default function WarehouseHUD() {
-  const navigate = useNavigate();
-  const { logout } = useAuth();
+export default function WarehouseHUD({ onComplete }: { onComplete?: () => void }) {
   const { activeScenario } = useSimulation();
   const [safetyStatus, setSafetyStatus] = useState<'idle' | 'testing' | 'pass' | 'fail'>('idle');
 
@@ -71,14 +67,8 @@ export default function WarehouseHUD() {
     }, 1500);
   };
 
-  const handleExit = () => {
-    logout();
-    navigate('/');
-  };
-
   return (
-    <div className="warehouse-hud full-screen-view" style={{ justifyContent: 'center', alignItems: 'center' }}>
-      <button className="btn-exit" onClick={handleExit}>&times;</button>
+    <div className="warehouse-hud full-screen-view" style={{ height: '100%' }}>
       
       <div style={{ maxWidth: '800px', width: '100%', textAlign: 'center', marginBottom: '2rem' }}>
         <h1 style={{ fontSize: '3rem', color: '#f59e0b', marginBottom: '1rem' }}>Local Repair Hub</h1>
@@ -92,7 +82,14 @@ export default function WarehouseHUD() {
         <div className="pat-status-box" data-status={safetyStatus} style={{ minHeight: '150px' }}>
           {safetyStatus === 'idle' && 'WAITING FOR SCAN...'}
           {safetyStatus === 'testing' && 'PERFORMING ELECTRICAL INSULATION TEST...'}
-          {safetyStatus === 'pass' && 'CERTIFIED SAFE ✅ (READY FOR REPAIR)'}
+          {safetyStatus === 'pass' && (
+            <div className="flex-col items-center">
+              <div className="mb-2">CERTIFIED SAFE ✅ (READY FOR REPAIR)</div>
+              <button onClick={() => onComplete && onComplete()} style={{ marginTop: '1rem', padding: '0.5rem 2rem', fontSize: '1rem', background: 'transparent', border: '1px solid #10b981', color: '#10b981', borderRadius: '4px', cursor: 'pointer' }}>
+                FINISH CYCLE
+              </button>
+            </div>
+          )}
           {safetyStatus === 'fail' && (
             <div className="flex-col items-center">
               <div className="mb-2">HAZARDOUS ❌ (DO NOT REPAIR)</div>

@@ -6,9 +6,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { SimulationProvider } from './contexts/SimulationContext';
 
 import LandingPortal from './views/LandingPortal';
-import ResidentPortal from './views/ResidentPortal';
-import DriverPortal from './views/DriverPortal';
-import WarehouseHUD from './views/WarehouseHUD';
+import MasterPipeline from './views/MasterPipeline';
 import AiTriage from './views/AiTriage';
 
 const queryClient = new QueryClient({
@@ -31,21 +29,16 @@ function AnimatedRoutes() {
       <Routes location={location}>
         <Route path="/" element={<LandingPortal />} />
         
-        <Route path="/resident" element={
-          <ProtectedRoute><ResidentPortal /></ProtectedRoute>
-        } />
-        
-        <Route path="/driver" element={
-          <ProtectedRoute><DriverPortal /></ProtectedRoute>
-        } />
-        
-        <Route path="/warehouse" element={
-          <ProtectedRoute><WarehouseHUD /></ProtectedRoute>
-        } />
-        
-        <Route path="/ai-core" element={
-          <ProtectedRoute><AiTriage /></ProtectedRoute>
-        } />
+        <Route 
+          path="/*" 
+          element={
+            <ProtectedRoute>
+              <div className="page-transition">
+                <MasterPipeline />
+              </div>
+            </ProtectedRoute>
+          } 
+        />
         
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

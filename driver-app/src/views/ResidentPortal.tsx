@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
 
-export default function ResidentPortal() {
-  const navigate = useNavigate();
-  const { logout } = useAuth();
+export default function ResidentPortal({ onComplete }: { onComplete?: () => void }) {
   const [status, setStatus] = useState<'idle' | 'scanning' | 'success'>('idle');
 
   const handleScan = () => {
@@ -14,15 +10,8 @@ export default function ResidentPortal() {
     }, 2000);
   };
 
-  const handleExit = () => {
-    logout();
-    navigate('/');
-  };
-
   return (
-    <div className="resident-portal full-screen-view" style={{ backgroundColor: '#000' }}>
-      <button className="btn-exit" onClick={handleExit}>&times;</button>
-      
+    <div className="resident-portal full-screen-view" style={{ backgroundColor: '#000', height: '100%', position: 'relative' }}>
       <div className="resident-content" style={{ maxWidth: '400px', margin: '0 auto', display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'center' }}>
         
         {/* WhatsApp-style Interface Simulation */}
@@ -69,7 +58,14 @@ export default function ResidentPortal() {
               📷 Snap Photo
             </button>
             {status === 'success' && (
-              <button onClick={() => setStatus('idle')} style={{ background: 'transparent', border: 'none', color: '#8696a0', cursor: 'pointer' }}>Reset</button>
+              <button 
+                onClick={() => {
+                  if (onComplete) onComplete();
+                }} 
+                style={{ background: 'transparent', border: 'none', color: '#8b5cf6', fontWeight: 'bold', cursor: 'pointer', fontSize: '1rem' }}
+              >
+                Send to Triage &rarr;
+              </button>
             )}
           </div>
         </div>
