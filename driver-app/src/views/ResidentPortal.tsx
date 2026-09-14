@@ -41,8 +41,7 @@ export default function ResidentPortal() {
             {status !== 'idle' && (
               <div style={{ background: '#005c4b', color: '#e9edef', padding: '0.5rem', borderRadius: '12px 12px 0 12px', alignSelf: 'flex-end', maxWidth: '85%' }}>
                 <div style={{ width: '200px', height: '150px', background: '#000', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                  {/* Simulated Toaster Photo */}
-                  <div style={{ fontSize: '4rem' }}>🍞</div>
+                  <img src="/assets/toaster.jpg" alt="Broken Toaster" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
               </div>
             )}
