@@ -328,7 +328,7 @@ p {
 
 /* -- Shared Full Screen View -- */
 .full-screen-view {
-  min-height: 100vh;
+  height: 100%;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -548,7 +548,8 @@ p {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
-  height: calc(100vh - 4rem);
+  flex: 1;
+  min-height: 0;
 }
 
 .hud-panel {
