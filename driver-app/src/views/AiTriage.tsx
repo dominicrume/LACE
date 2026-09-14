@@ -40,6 +40,8 @@ export default function AiTriage({ onComplete }: { onComplete?: () => void }) {
   const [phase, setPhase] = useState(0);
   const timerRef = useRef<any>(null);
 
+  const currentData = activeScenario ? SCENARIOS[activeScenario] : null;
+
   const startSimulation = (scenarioKey: keyof typeof SCENARIOS) => {
     setActiveScenario(scenarioKey);
     setPhase(0);

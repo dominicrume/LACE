@@ -7,7 +7,6 @@ import { SimulationProvider } from './contexts/SimulationContext';
 
 import LandingPortal from './views/LandingPortal';
 import MasterPipeline from './views/MasterPipeline';
-import AiTriage from './views/AiTriage';
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchOnWindowFocus: false, staleTime: 1000 * 60 } },
