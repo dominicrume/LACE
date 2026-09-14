@@ -8,7 +8,7 @@ import LandingPortal from './views/LandingPortal';
 import ResidentPortal from './views/ResidentPortal';
 import DriverPortal from './views/DriverPortal';
 import WarehouseHUD from './views/WarehouseHUD';
-import AuditorLedger from './views/AuditorLedger';
+import AiTriage from './views/AiTriage';
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchOnWindowFocus: false, staleTime: 1000 * 60 } },
@@ -43,8 +43,8 @@ export default function App() {
               <ProtectedRoute><WarehouseHUD /></ProtectedRoute>
             } />
             
-            <Route path="/auditor" element={
-              <ProtectedRoute><AuditorLedger /></ProtectedRoute>
+            <Route path="/ai-core" element={
+              <ProtectedRoute><AiTriage /></ProtectedRoute>
             } />
             
             <Route path="*" element={<Navigate to="/" replace />} />

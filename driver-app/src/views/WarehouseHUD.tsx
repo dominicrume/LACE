@@ -1,25 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function WarehouseHUD() {
   const navigate = useNavigate();
   const { logout } = useAuth();
-  const [telemetry, setTelemetry] = useState<any[]>([]);
   const [safetyStatus, setSafetyStatus] = useState<'idle' | 'testing' | 'pass' | 'fail'>('idle');
-
-  useEffect(() => {
-    const ws = new WebSocket(
-      window.location.protocol === 'https:' 
-        ? `wss://${window.location.host}/ws/telemetry` 
-        : `ws://${window.location.host}/ws/telemetry`
-    );
-    ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      setTelemetry((prev) => [data, ...prev].slice(0, 10));
-    };
-    return () => ws.close();
-  }, []);
 
   const playSound = (type: 'pass' | 'fail' | 'scan') => {
     const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
@@ -46,7 +32,6 @@ export default function WarehouseHUD() {
       gainNode.gain.setValueAtTime(0, ctx.currentTime);
       gainNode.gain.linearRampToValueAtTime(0.8, ctx.currentTime + 0.05);
       gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 1.5);
-      // LFO for alarm effect
       const lfo = ctx.createOscillator();
       lfo.type = 'sine';
       lfo.frequency.value = 5;
@@ -69,11 +54,6 @@ export default function WarehouseHUD() {
     }
   };
 
-  const handleExit = () => {
-    logout();
-    navigate('/');
-  };
-
   const handleTest = (result: 'pass' | 'fail') => {
     setSafetyStatus('testing');
     playSound('scan');
@@ -83,64 +63,51 @@ export default function WarehouseHUD() {
     }, 1500);
   };
 
+  const handleExit = () => {
+    logout();
+    navigate('/');
+  };
+
   return (
-    <div className="warehouse-hud full-screen-view">
+    <div className="warehouse-hud full-screen-view" style={{ justifyContent: 'center', alignItems: 'center' }}>
       <button className="btn-exit" onClick={handleExit}>&times;</button>
       
-      <div className="hud-grid">
-        {/* Left Side: Robot Telemetry HUD */}
-        <div className="hud-panel telemetry-panel">
-          <div className="hud-header">
-            <span className="live-dot"></span>
-            <h2>KINOVA GEN3 VISION</h2>
-          </div>
-          <div className="robot-cam-sim">
-            <div className="bounding-box"></div>
-            <div className="hud-overlay-text">TARGET IDENTIFIED: MICROWAVE (98.4%)</div>
-          </div>
-          <div className="telemetry-log">
-            {telemetry.map((msg, i) => (
-              <div key={i} className="log-line">
-                <span className="log-time">[{new Date(msg.timestamp).toISOString().split('T')[1].substring(0, 8)}]</span>
-                <span className="log-msg">{msg.msg}</span>
+      <div style={{ maxWidth: '800px', width: '100%', textAlign: 'center', marginBottom: '2rem' }}>
+        <h1 style={{ fontSize: '3rem', color: '#f59e0b', marginBottom: '1rem' }}>Local Repair Hub</h1>
+        <p style={{ fontSize: '1.2rem', color: '#94a3b8' }}>"Safety and compliance are non-negotiable. All electrical goods undergo strict visual inspection and PAT testing by qualified technicians."</p>
+      </div>
+
+      <div className="hud-panel safety-panel" style={{ width: '100%', maxWidth: '800px', minHeight: '400px' }}>
+        <h2 style={{ textAlign: 'center', fontSize: '2rem' }}>TOASTER PAT TEST STATION</h2>
+        <p className="text-gray-400 mb-6" style={{ textAlign: 'center' }}>Awaiting technician barcode scan...</p>
+        
+        <div className="pat-status-box" data-status={safetyStatus} style={{ minHeight: '150px' }}>
+          {safetyStatus === 'idle' && 'WAITING FOR SCAN...'}
+          {safetyStatus === 'testing' && 'PERFORMING ELECTRICAL INSULATION TEST...'}
+          {safetyStatus === 'pass' && 'CERTIFIED SAFE ✅ (READY FOR REPAIR)'}
+          {safetyStatus === 'fail' && (
+            <div className="flex-col items-center">
+              <div className="mb-2">HAZARDOUS ❌ (DO NOT REPAIR)</div>
+              <div style={{ fontSize: '1.2rem', color: '#fca5a5' }}>
+                Please isolate unit immediately. Click Reset below to await next scan.
               </div>
-            ))}
-          </div>
+            </div>
+          )}
         </div>
 
-        {/* Right Side: PAT Safety Station */}
-        <div className="hud-panel safety-panel">
-          <h2>SAFETY & PAT TESTING</h2>
-          <p className="text-gray-400 mb-6">Scan barcode to initiate physical test.</p>
-          
-          <div className="pat-status-box" data-status={safetyStatus}>
-            {safetyStatus === 'idle' && 'WAITING FOR SCAN...'}
-            {safetyStatus === 'testing' && 'PERFORMING ELECTRICAL INSULATION TEST...'}
-            {safetyStatus === 'pass' && 'CERTIFIED SAFE ✅'}
-            {safetyStatus === 'fail' && (
-              <div className="flex-col items-center">
-                <div className="mb-2">HAZARDOUS ❌ (DO NOT SHIP)</div>
-                <div style={{ fontSize: '1rem', color: '#fca5a5' }}>
-                  Please isolate unit immediately. Click Reset below to await next scan.
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className="pat-controls mt-6 flex gap-4">
-            <button className="btn btn-outline" onClick={() => handleTest('pass')}>Simulate: PASS</button>
-            <button className="btn btn-outline" onClick={() => handleTest('fail')}>Simulate: FAIL</button>
-            <button 
-              className={`btn ${safetyStatus === 'fail' ? 'btn-danger' : 'btn-outline'}`} 
-              onClick={() => {
-                setSafetyStatus('idle');
-                if (safetyStatus !== 'idle') playSound('scan');
-              }}
-              style={safetyStatus === 'fail' ? { animation: 'pulse-red 2s infinite' } : {}}
-            >
-              RESET TO WAITING
-            </button>
-          </div>
+        <div className="pat-controls mt-8 flex gap-6 justify-center">
+          <button className="btn btn-outline" style={{ fontSize: '1.2rem', padding: '1rem 2rem' }} onClick={() => handleTest('pass')}>Simulate: PASS</button>
+          <button className="btn btn-outline" style={{ fontSize: '1.2rem', padding: '1rem 2rem' }} onClick={() => handleTest('fail')}>Simulate: FAIL</button>
+          <button 
+            className={`btn ${safetyStatus === 'fail' ? 'btn-danger' : 'btn-outline'}`} 
+            style={{ fontSize: '1.2rem', padding: '1rem 2rem', ...(safetyStatus === 'fail' ? { animation: 'pulse-red 2s infinite' } : {}) }}
+            onClick={() => {
+              setSafetyStatus('idle');
+              if (safetyStatus !== 'idle') playSound('scan');
+            }}
+          >
+            RESET TO WAITING
+          </button>
         </div>
       </div>
     </div>

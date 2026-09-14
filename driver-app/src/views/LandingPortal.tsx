@@ -5,39 +5,39 @@ import { useNavigate } from 'react-router-dom';
 const CARDS = [
   {
     id: 'resident',
-    title: 'The Resident',
-    description: 'Report E-Waste for Collection',
-    icon: '🏠',
-    username: 'user1', // Not strictly in DB right now, but we can use a dummy or skip auth for resident
-    color: '#3b82f6', // blue
+    title: "Emma's Doorstep",
+    description: 'WhatsApp-style Triage',
+    icon: '📱',
+    username: 'user1',
+    color: '#3b82f6', 
     route: '/resident'
   },
   {
+    id: 'ai-core',
+    title: 'LCX AI Core',
+    description: 'Computer Vision Assessment',
+    icon: '🧠',
+    username: 'admin1',
+    color: '#8b5cf6', 
+    route: '/ai-core'
+  },
+  {
     id: 'driver',
-    title: 'The Driver',
-    description: 'Navigate Collection Route',
+    title: 'Logistics Route',
+    description: 'Dynamic Collection Clustering',
     icon: '🚐',
-    username: 'tech1', // Driver is tech facing
-    color: '#10b981', // green
+    username: 'tech1',
+    color: '#10b981', 
     route: '/driver'
   },
   {
     id: 'warehouse',
-    title: 'The Warehouse',
-    description: 'AI Telemetry & PAT Safety',
-    icon: '🤖',
-    username: 'admin1', // Admin facing
-    color: '#f59e0b', // amber
+    title: 'Repair Hub',
+    description: 'PAT Safety Certification',
+    icon: '🛠️',
+    username: 'tech1', 
+    color: '#f59e0b', 
     route: '/warehouse'
-  },
-  {
-    id: 'auditor',
-    title: 'The Auditor',
-    description: 'Verify Cryptographic Ledger',
-    icon: '🏛️',
-    username: 'gov1', // Gov facing
-    color: '#8b5cf6', // purple
-    route: '/auditor'
   }
 ];
 
@@ -49,10 +49,9 @@ export default function LandingPortal() {
   const handleSelectJourney = async (card: typeof CARDS[0]) => {
     setLoading(card.id);
     try {
-      // Magic Authentication
       const formBody = new URLSearchParams();
       formBody.append('username', card.username);
-      formBody.append('password', 'password'); // all dummy accounts use 'password'
+      formBody.append('password', 'password'); 
 
       const res = await fetch('/api/login', {
         method: 'POST',
@@ -62,12 +61,9 @@ export default function LandingPortal() {
       });
 
       if (!res.ok) {
-        // Fallback for purely visual testing if backend is unreachable
-        console.warn("Backend auth failed. Simulating local auth.");
         let simulatedRole = 'USER';
         if (card.username === 'tech1') simulatedRole = 'TECH';
         if (card.username === 'admin1') simulatedRole = 'ADMIN';
-        if (card.username === 'gov1') simulatedRole = 'GOVERNMENT';
         login(simulatedRole as any);
       } else {
         const data = await res.json();
@@ -85,8 +81,8 @@ export default function LandingPortal() {
   return (
     <div className="landing-portal">
       <div className="portal-header">
-        <h1 className="portal-title">Experience LACE</h1>
-        <p className="portal-subtitle">Choose your journey.</p>
+        <h1 className="portal-title">Ladywood Circular Exchange</h1>
+        <p className="portal-subtitle">AI-Assisted Doorstep Collection & Repair</p>
       </div>
 
       <div className="portal-grid">
@@ -101,7 +97,7 @@ export default function LandingPortal() {
             <div className="portal-card-icon">{card.icon}</div>
             <h2 className="portal-card-title">{card.title}</h2>
             <p className="portal-card-desc">{card.description}</p>
-            {loading === card.id && <div className="portal-card-loader">Authenticating Magic...</div>}
+            {loading === card.id && <div className="portal-card-loader">Authenticating...</div>}
           </button>
         ))}
       </div>
